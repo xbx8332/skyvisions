@@ -1,0 +1,46 @@
+tags:
+  - FlightPaths
+summary: 删除飞行路径
+description: 删除指定飞行路径
+operationId: deleteFlightPath
+parameters:
+  - name: flight_path_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 飞行路径的 ID
+responses:
+  '200':
+    description: 飞行路径删除成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '404':
+    description: 飞行路径未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

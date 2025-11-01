@@ -1,0 +1,64 @@
+tags:
+  - SystemPermissions
+summary: 获取系统权限信息
+description: 获取指定系统权限的详细信息
+operationId: getSystemPermission
+parameters:
+  - name: permission_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 系统权限的ID
+responses:
+  '200':
+    description: 系统权限获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                  nullable: true
+                code:
+                  type: string
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+  '404':
+    description: 系统权限不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

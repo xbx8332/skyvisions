@@ -1,0 +1,46 @@
+tags:
+  - 角色权限
+summary: 删除角色权限关联
+description: 删除指定角色权限关联
+operationId: deleteRolePermission
+parameters:
+  - name: rp_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 角色权限关联ID
+responses:
+  '200':
+    description: 角色权限关联删除成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '404':
+    description: 角色权限关联不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

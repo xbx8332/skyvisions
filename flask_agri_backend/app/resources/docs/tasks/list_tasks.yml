@@ -1,0 +1,74 @@
+tags:
+  - Tasks
+summary: 获取任务列表
+description: 获取所有任务记录的列表
+operationId: listTasks
+responses:
+  '200':
+    description: 任务列表获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                    nullable: true
+                  description:
+                    type: string
+                    nullable: true
+                  type:
+                    type: string
+                    enum:
+                      - mapping
+                      - spraying
+                    nullable: true
+                  field_id:
+                    type: integer
+                    nullable: true
+                  path_id:
+                    type: integer
+                    nullable: true
+                  status:
+                    type: string
+                    enum:
+                      - pending
+                      - running
+                      - done
+                    nullable: true
+                  volume:
+                    type: number
+                    nullable: true
+                  schedule_at:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  metadata:
+                    type: object
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

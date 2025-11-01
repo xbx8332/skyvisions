@@ -1,0 +1,84 @@
+tags:
+  - 地块
+summary: 创建地块
+description: 创建一个新的地块
+operationId: createPlot
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 地块名称
+          owner_id:
+            type: integer
+            description: 所有者ID
+            nullable: true
+          geom:
+            type: string
+            description: 地块几何边界
+          area:
+            type: number
+            description: 地块面积
+            nullable: true
+          soil_type:
+            type: string
+            description: 土壤类型
+            nullable: true
+          crop_type:
+            type: string
+            description: 作物类型
+            nullable: true
+          metadata:
+            type: string
+            description: 元数据（JSON字符串）
+            nullable: true
+        required:
+          - name
+          - geom
+responses:
+  '201':
+    description: 地块创建成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或格式错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          MissingParameter:
+            value:
+              message: 参数不能为空：name
+              error_code: 1
+          InvalidJSON:
+            value:
+              message: JSON格式错误
+              error_code: 1
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

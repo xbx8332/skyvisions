@@ -1,0 +1,65 @@
+tags:
+  - SystemUsers
+summary: 获取用户信息
+description: 获取指定用户的详细信息
+operationId: getSystemUser
+parameters:
+  - name: user_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 用户 ID
+responses:
+  '200':
+    description: 用户获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                username:
+                  type: string
+                email:
+                  type: string
+                  nullable: true
+                status:
+                  type: string
+                  enum:
+                    - active
+                    - disabled
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+  '404':
+    description: 用户未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: string
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: string

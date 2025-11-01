@@ -1,0 +1,62 @@
+tags:
+  - Tasks
+summary: 删除任务
+description: 删除指定任务
+operationId: deleteTask
+parameters:
+  - name: task_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 任务的ID
+responses:
+  '200':
+    description: 任务删除成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          ReferenceError:
+            value:
+              message: 无法删除：任务被其他记录引用
+              error_code: 2
+  '404':
+    description: 任务不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

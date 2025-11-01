@@ -1,0 +1,48 @@
+tags:
+  - SystemPermissions
+summary: 获取系统权限列表
+description: 获取所有系统权限列表
+operationId: listSystemPermissions
+responses:
+  '200':
+    description: 系统权限列表获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                    nullable: true
+                  code:
+                    type: string
+                    nullable: true
+                  description:
+                    type: string
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

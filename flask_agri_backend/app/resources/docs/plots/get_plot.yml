@@ -1,0 +1,76 @@
+tags:
+  - 地块
+summary: 获取地块信息
+description: 获取指定地块的详细信息
+operationId: getPlot
+parameters:
+  - name: plot_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 地块ID
+responses:
+  '200':
+    description: 地块获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                  nullable: true
+                owner_id:
+                  type: integer
+                  nullable: true
+                geom:
+                  type: string
+                  nullable: true
+                area:
+                  type: number
+                  nullable: true
+                soil_type:
+                  type: string
+                  nullable: true
+                crop_type:
+                  type: string
+                  nullable: true
+                metadata:
+                  type: object
+                  nullable: true
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+  '404':
+    description: 地块不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

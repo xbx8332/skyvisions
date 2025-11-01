@@ -1,0 +1,64 @@
+tags:
+  - SystemRoles
+summary: 创建系统角色
+description: 创建新的系统角色
+operationId: createSystemRole
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 角色名称
+          description:
+            type: string
+            description: 角色描述
+            nullable: true
+        required:
+          - name
+responses:
+  '201':
+    description: 系统角色创建成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或角色名称已存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          Duplicate:
+            value:
+              message: 角色名称已存在：name=admin
+              error_code: 2
+          MissingParameter:
+            value:
+              message: 参数错误：name
+              error_code: 1
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

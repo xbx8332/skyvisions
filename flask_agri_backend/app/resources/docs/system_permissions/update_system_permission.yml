@@ -1,0 +1,81 @@
+tags:
+  - SystemPermissions
+summary: 更新系统权限
+description: 更新指定的系统权限
+operationId: updateSystemPermission
+parameters:
+  - name: permission_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 系统权限的ID
+requestBody:
+  required: false
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 权限名称
+            nullable: true
+          code:
+            type: string
+            description: 权限代码
+            nullable: true
+          description:
+            type: string
+            description: 权限描述
+            nullable: true
+responses:
+  '200':
+    description: 系统权限更新成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或权限代码已存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          Duplicate:
+            value:
+              message: 权限代码已存在：code=read
+              error_code: 2
+  '404':
+    description: 系统权限不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

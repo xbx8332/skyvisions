@@ -1,0 +1,105 @@
+tags:
+  - FlightPaths
+summary: 更新飞行路径
+description: 更新指定飞行路径的详细信息
+operationId: updateFlightPath
+parameters:
+  - name: flight_path_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 飞行路径的 ID
+requestBody:
+  required: false
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 飞行路径名称
+            nullable: true
+          description:
+            type: string
+            description: 描述
+            nullable: true
+          geojson:
+            type: string
+            description: GeoJSON数据（JSON字符串）
+            nullable: true
+          bbox:
+            type: string
+            description: 边界框
+            nullable: true
+          altitude:
+            type: number
+            description: 飞行高度
+            nullable: true
+          speed:
+            type: number
+            description: 飞行速度
+            nullable: true
+          task_type:
+            type: string
+            description: 任务类型
+            nullable: true
+          metadata:
+            type: string
+            description: 元数据（JSON字符串）
+            nullable: true
+          tags:
+            type: string
+            description: '标签（JSON字符串，例如 ["tag1", "tag2"]）'
+            nullable: true
+responses:
+  '200':
+    description: 飞行路径更新成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: JSON格式错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          InvalidJSON:
+            value:
+              message: JSON格式错误
+              error_code: 1
+  '404':
+    description: 飞行路径未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

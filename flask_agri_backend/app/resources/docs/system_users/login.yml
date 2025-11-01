@@ -1,0 +1,84 @@
+tags:
+  - SystemUsers
+summary: 用户登录
+description: 用户登录并获取访问令牌
+operationId: loginSystemUser
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          username:
+            type: string
+            description: 用户名
+          password:
+            type: string
+            description: 密码
+        required:
+          - username
+          - password
+responses:
+  '200':
+    description: 登录成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            access_token:
+              type: string
+            user_id:
+              type: integer
+            username:
+              type: string
+  '400':
+    description: 无效请求或参数错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: string
+        examples:
+          MissingParameter:
+            value:
+              message: 参数错误：用户名不能为空
+              error_code: '1'
+  '401':
+    description: 认证失败
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: string
+        examples:
+          InvalidCredentials:
+            value:
+              message: 用户名或密码错误
+              error_code: '2'
+          UserNotActive:
+            value:
+              message: 用户未激活
+              error_code: '3'
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: string

@@ -1,0 +1,46 @@
+tags:
+  - Imagery
+summary: 删除影像
+description: 删除指定影像
+operationId: deleteImagery
+parameters:
+  - name: imagery_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 影像ID
+responses:
+  '200':
+    description: 影像删除成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '404':
+    description: 影像未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

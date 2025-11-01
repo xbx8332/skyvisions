@@ -1,0 +1,77 @@
+tags:
+  - 角色权限
+summary: 更新角色权限关联
+description: 更新指定角色权限关联
+operationId: updateRolePermission
+parameters:
+  - name: rp_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 角色权限关联ID
+requestBody:
+  required: false
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          role_id:
+            type: integer
+            description: 角色ID
+            nullable: true
+          permission_id:
+            type: integer
+            description: 权限ID
+            nullable: true
+responses:
+  '200':
+    description: 角色权限关联更新成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或记录已存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          Duplicate:
+            value:
+              message: '记录已存在：role_id=1, permission_id=2'
+              error_code: 1
+  '404':
+    description: 角色权限关联不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

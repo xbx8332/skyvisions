@@ -1,0 +1,75 @@
+tags:
+  - Imagery
+summary: 获取影像列表
+description: 获取所有影像记录的列表
+operationId: listImagery
+responses:
+  '200':
+    description: 影像列表获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                    nullable: true
+                  file_path:
+                    type: string
+                  geom:
+                    type: string
+                    nullable: true
+                  srid:
+                    type: integer
+                    nullable: true
+                  red_band_index:
+                    type: integer
+                    nullable: true
+                  nir_band_index:
+                    type: integer
+                    nullable: true
+                  metadata:
+                    type: object
+                    nullable: true
+                  status:
+                    type: string
+                    enum:
+                      - active
+                      - deleted
+                  capture_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

@@ -1,0 +1,82 @@
+tags:
+  - FlightPaths
+summary: 获取飞行路径
+description: 获取指定飞行路径的详细信息
+operationId: getFlightPath
+parameters:
+  - name: flight_path_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 飞行路径的 ID
+responses:
+  '200':
+    description: 飞行路径获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+                geojson:
+                  type: object
+                  nullable: true
+                bbox:
+                  type: string
+                  nullable: true
+                altitude:
+                  type: number
+                  nullable: true
+                speed:
+                  type: number
+                  nullable: true
+                task_type:
+                  type: string
+                  nullable: true
+                metadata:
+                  type: object
+                  nullable: true
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+                tags:
+                  type: object
+                  nullable: true
+  '404':
+    description: 飞行路径未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

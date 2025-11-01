@@ -1,0 +1,90 @@
+tags:
+  - Tasks
+summary: 获取任务信息
+description: 获取指定任务的详细信息
+operationId: getTask
+parameters:
+  - name: task_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 任务的ID
+responses:
+  '200':
+    description: 任务获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+                type:
+                  type: string
+                  enum:
+                    - mapping
+                    - spraying
+                  nullable: true
+                field_id:
+                  type: integer
+                  nullable: true
+                path_id:
+                  type: integer
+                  nullable: true
+                status:
+                  type: string
+                  enum:
+                    - pending
+                    - running
+                    - done
+                  nullable: true
+                volume:
+                  type: number
+                  nullable: true
+                schedule_at:
+                  type: string
+                  format: date-time
+                  nullable: true
+                metadata:
+                  type: object
+                  nullable: true
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+  '404':
+    description: 任务不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

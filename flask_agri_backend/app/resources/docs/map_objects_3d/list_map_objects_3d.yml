@@ -1,0 +1,57 @@
+tags:
+  - 3D 地图对象
+summary: 获取3D地图对象列表
+description: 获取所有3D地图对象列表
+operationId: listMapObjects3D
+responses:
+  '200':
+    description: 3D地图对象列表获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                    nullable: true
+                  type:
+                    type: string
+                    nullable: true
+                  style:
+                    type: object
+                    nullable: true
+                  geom:
+                    type: string
+                    nullable: true
+                  related_id:
+                    type: integer
+                    nullable: true
+                  metadata:
+                    type: object
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

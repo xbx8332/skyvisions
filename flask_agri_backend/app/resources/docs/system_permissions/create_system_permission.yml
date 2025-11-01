@@ -1,0 +1,68 @@
+tags:
+  - SystemPermissions
+summary: 创建系统权限
+description: 创建新的系统权限
+operationId: createSystemPermission
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 权限名称
+          code:
+            type: string
+            description: 权限代码
+          description:
+            type: string
+            description: 权限描述
+            nullable: true
+        required:
+          - name
+          - code
+responses:
+  '201':
+    description: 系统权限创建成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或权限代码已存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          Duplicate:
+            value:
+              message: 权限代码已存在：code=read
+              error_code: 2
+          MissingParameter:
+            value:
+              message: 参数错误：name
+              error_code: 1
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

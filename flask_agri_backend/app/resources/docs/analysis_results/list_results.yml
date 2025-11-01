@@ -1,0 +1,66 @@
+tags:
+  - AnalysisResults
+summary: 获取分析结果列表
+description: 获取所有分析结果记录的列表
+operationId: listAnalysisResults
+responses:
+  '200':
+    description: 分析结果列表获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                    nullable: true
+                  description:
+                    type: string
+                    nullable: true
+                  type:
+                    type: string
+                    nullable: true
+                  result_path:
+                    type: string
+                    nullable: true
+                  field_id:
+                    type: integer
+                    nullable: true
+                  imagery_id:
+                    type: integer
+                    nullable: true
+                  bbox:
+                    type: string
+                    nullable: true
+                  stats:
+                    type: object
+                    nullable: true
+                  style:
+                    type: object
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

@@ -1,0 +1,82 @@
+tags:
+  - AnalysisResults
+summary: 获取分析结果
+description: 获取指定分析结果的详细信息
+operationId: getAnalysisResult
+parameters:
+  - name: result_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 分析结果的 ID
+responses:
+  '200':
+    description: 分析结果获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+                type:
+                  type: string
+                  nullable: true
+                result_path:
+                  type: string
+                  nullable: true
+                field_id:
+                  type: integer
+                  nullable: true
+                imagery_id:
+                  type: integer
+                  nullable: true
+                bbox:
+                  type: string
+                  nullable: true
+                stats:
+                  type: object
+                  nullable: true
+                style:
+                  type: object
+                  nullable: true
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+  '404':
+    description: 分析结果未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

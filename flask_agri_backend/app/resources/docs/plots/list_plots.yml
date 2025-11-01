@@ -1,0 +1,60 @@
+tags:
+  - 地块
+summary: 获取地块列表
+description: 获取所有地块列表
+operationId: listPlots
+responses:
+  '200':
+    description: 地块列表获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                    nullable: true
+                  owner_id:
+                    type: integer
+                    nullable: true
+                  geom:
+                    type: string
+                    nullable: true
+                  area:
+                    type: number
+                    nullable: true
+                  soil_type:
+                    type: string
+                    nullable: true
+                  crop_type:
+                    type: string
+                    nullable: true
+                  metadata:
+                    type: object
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

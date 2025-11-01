@@ -1,0 +1,59 @@
+tags:
+  - UserRoles
+summary: 获取用户角色关联信息
+description: 获取指定用户角色关联的详细信息
+operationId: getUserRole
+parameters:
+  - name: ur_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 用户角色关联的ID
+responses:
+  '200':
+    description: 用户角色关联获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                user_id:
+                  type: integer
+                role_id:
+                  type: integer
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+  '404':
+    description: 用户角色关联不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

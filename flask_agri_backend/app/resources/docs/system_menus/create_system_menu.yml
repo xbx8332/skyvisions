@@ -1,0 +1,76 @@
+tags:
+  - SystemMenus
+summary: 创建系统菜单
+description: 创建新的系统菜单
+operationId: createSystemMenu
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          parent_id:
+            type: integer
+            description: 父菜单ID
+            nullable: true
+          name:
+            type: string
+            description: 菜单名称
+          path:
+            type: string
+            description: 菜单路径
+          icon:
+            type: string
+            description: 菜单图标
+            nullable: true
+          order_num:
+            type: integer
+            description: 排序编号
+            nullable: true
+        required:
+          - name
+          - path
+responses:
+  '201':
+    description: 系统菜单创建成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          MissingParameter:
+            value:
+              message: 参数错误：name
+              error_code: 1
+          Duplicate:
+            value:
+              message: 记录已存在：菜单名称或路径重复
+              error_code: 2
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

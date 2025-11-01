@@ -1,0 +1,46 @@
+tags:
+  - 地块
+summary: 删除地块
+description: 删除指定地块
+operationId: deletePlot
+parameters:
+  - name: plot_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 地块ID
+responses:
+  '200':
+    description: 地块删除成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '404':
+    description: 地块不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

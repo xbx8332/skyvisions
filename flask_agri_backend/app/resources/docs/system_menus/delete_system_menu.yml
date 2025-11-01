@@ -1,0 +1,62 @@
+tags:
+  - SystemMenus
+summary: 删除系统菜单
+description: 删除指定的系统菜单
+operationId: deleteSystemMenu
+parameters:
+  - name: menu_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 系统菜单的ID
+responses:
+  '200':
+    description: 系统菜单删除成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          Referenced:
+            value:
+              message: 无法删除：菜单被其他记录引用
+              error_code: 2
+  '404':
+    description: 系统菜单不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

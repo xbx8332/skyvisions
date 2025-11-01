@@ -1,0 +1,105 @@
+tags:
+  - AnalysisResults
+summary: 更新分析结果
+description: 更新指定分析结果的详细信息
+operationId: updateAnalysisResult
+parameters:
+  - name: result_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 分析结果的 ID
+requestBody:
+  required: false
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 分析结果名称
+            nullable: true
+          description:
+            type: string
+            description: 描述
+            nullable: true
+          type:
+            type: string
+            description: 分析类型
+            nullable: true
+          result_path:
+            type: string
+            description: 分析结果路径
+            nullable: true
+          field_id:
+            type: string
+            description: 关联字段 ID
+            nullable: true
+          imagery_id:
+            type: integer
+            description: 关联影像 ID
+            nullable: true
+          bbox:
+            type: string
+            description: 分析区域范围
+            nullable: true
+          stats:
+            type: string
+            description: 统计数据（JSON字符串）
+            nullable: true
+          style:
+            type: true
+            description: 样式（JSON字符串）
+            nullable: true
+responses:
+  '200':
+    description: 分析结果更新成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: JSON格式错误或参数错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          InvalidJSON:
+            value:
+              message: JSON格式错误
+              error_code: 1
+  '404':
+    description: 分析结果未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 服务器错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

@@ -1,0 +1,64 @@
+tags:
+  - 角色权限
+summary: 创建角色权限关联
+description: 创建新的角色权限关联
+operationId: createRolePermission
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          role_id:
+            type: integer
+            description: 角色ID
+          permission_id:
+            type: integer
+            description: 权限ID
+        required:
+          - role_id
+          - permission_id
+responses:
+  '201':
+    description: 角色权限关联创建成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或记录已存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          MissingParameter:
+            value:
+              message: 参数不能为空：role_id
+              error_code: 1
+          Duplicate:
+            value:
+              message: '记录已存在：role_id=1, permission_id=2'
+              error_code: 1
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

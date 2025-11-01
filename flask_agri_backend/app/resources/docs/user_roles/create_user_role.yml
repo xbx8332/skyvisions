@@ -1,0 +1,64 @@
+tags:
+  - UserRoles
+summary: 创建用户角色关联
+description: 创建新的用户角色关联
+operationId: createUserRole
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          user_id:
+            type: integer
+            description: 用户ID
+          role_id:
+            type: integer
+            description: 角色ID
+        required:
+          - user_id
+          - role_id
+responses:
+  '201':
+    description: 用户角色关联创建成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或关联已存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          Duplicate:
+            value:
+              message: '用户角色关联已存在：user_id=1, role_id=2'
+              error_code: 2
+          MissingParameter:
+            value:
+              message: 参数错误：user_id
+              error_code: 1
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

@@ -1,0 +1,89 @@
+tags:
+  - SystemMenus
+summary: 更新系统菜单
+description: 更新指定的系统菜单
+operationId: updateSystemMenu
+parameters:
+  - name: menu_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 系统菜单的ID
+requestBody:
+  required: false
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          parent_id:
+            type: integer
+            description: 父菜单ID
+            nullable: true
+          name:
+            type: string
+            description: 菜单名称
+            nullable: true
+          path:
+            type: string
+            description: 菜单路径
+            nullable: true
+          icon:
+            type: string
+            description: 菜单图标
+            nullable: true
+          order_num:
+            type: integer
+            description: 排序编号
+            nullable: true
+responses:
+  '200':
+    description: 系统菜单更新成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          Duplicate:
+            value:
+              message: 记录已存在：菜单名称或路径重复
+              error_code: 2
+  '404':
+    description: 系统菜单不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

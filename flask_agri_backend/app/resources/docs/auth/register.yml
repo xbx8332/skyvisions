@@ -1,0 +1,72 @@
+tags:
+  - Auth
+summary: 注册新用户
+description: 创建一个新用户账户
+operationId: registerSystemUser
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          username:
+            type: string
+            description: 用户名
+          email:
+            type: string
+            description: 邮箱（如 user@example.com）
+            nullable: true
+          password:
+            type: string
+            description: 密码（将加密存储）
+        required:
+          - username
+          - password
+responses:
+  '201':
+    description: 用户注册成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 无效请求或参数错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: string
+        examples:
+          DuplicateUsername:
+            value:
+              message: 用户已存在：username=testuser
+              error_code: '1'
+          InvalidEmail:
+            value:
+              message: 参数错误：无效的邮箱格式
+              error_code: '1'
+          MissingParameter:
+            value:
+              message: 参数错误：用户名不能为空
+              error_code: '1'
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: string

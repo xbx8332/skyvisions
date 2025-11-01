@@ -1,0 +1,99 @@
+tags:
+  - AnalysisResults
+summary: 获取分析结果
+description: 获取指定分析结果的详细信息
+operationId: getAnalysisResult
+parameters:
+  - name: result_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 分析结果的 ID
+responses:
+  '200':
+    description: 分析结果获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 分析结果获取成功
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  nullable: true
+                  example: Example Result
+                description:
+                  type: string
+                  nullable: true
+                  example: Description of the result
+                type:
+                  type: string
+                  nullable: true
+                  example: AnalysisType
+                result_path:
+                  type: string
+                  nullable: true
+                  example: /path/to/result
+                field_id:
+                  type: integer
+                  nullable: true
+                  example: 1
+                imagery_id:
+                  type: integer
+                  nullable: true
+                  example: 1
+                bbox:
+                  type: string
+                  nullable: true
+                  example: POLYGON((0 0, 1 1, 1 0, 0 0))
+                stats:
+                  type: object
+                  nullable: true
+                  example: {}
+                style:
+                  type: object
+                  nullable: true
+                  example: {}
+                created_at:
+                  type: string
+                  format: date-time
+                  example: 2025-05-30T09:29:50Z
+                updated_at:
+                  type: string
+                  format: date-time
+                  example: 2025-05-30T09:29:50Z
+  '404':
+    description: 分析结果未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 记录不存在：ID=1
+            error_code:
+              type: integer
+              example: 404
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 数据库错误
+            error_code:
+              type: integer
+              example: 500

@@ -1,0 +1,88 @@
+tags:
+  - SystemPermissions
+summary: 分页获取系统权限
+description: 获取分页的系统权限列表
+operationId: pageSystemPermissions
+parameters:
+  - name: page
+    in: query
+    required: false
+    schema:
+      type: integer
+      default: 1
+    description: 页码
+  - name: page_size
+    in: query
+    required: false
+    schema:
+      type: integer
+      default: 10
+    description: 每页数量
+responses:
+  '200':
+    description: 分页系统权限获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                    nullable: true
+                  code:
+                    type: string
+                    nullable: true
+                  description:
+                    type: string
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+            total:
+              type: integer
+              description: 总记录数
+            page:
+              type: integer
+              description: 当前页码
+            page_size:
+              type: integer
+              description: 每页数量
+  '400':
+    description: 无效的页码或页面大小
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          InvalidPage:
+            value:
+              message: 页码和页面大小必须为正整数
+              error_code: 1
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

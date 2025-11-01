@@ -1,0 +1,27 @@
+tags:
+  - Auth
+summary: 用户注销
+description: 注销当前用户，将访问令牌加入黑名单
+operationId: logout
+security:
+  - schema.auth_bearer: []
+responses:
+  '200':
+    description: 注销成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+  '401':
+    description: 未登录或令牌已失效
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 请先登录

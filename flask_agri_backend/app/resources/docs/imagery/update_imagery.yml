@@ -1,0 +1,121 @@
+tags:
+  - Imagery
+summary: 更新影像
+description: 更新指定影像的详细信息
+operationId: updateImagery
+parameters:
+  - name: imagery_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 影像ID
+requestBody:
+  required: false
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 影像名称
+            nullable: true
+          description:
+            type: string
+            description: 描述
+            nullable: true
+          file_path:
+            type: string
+            description: 文件路径
+            nullable: true
+          geom:
+            type: string
+            description: 几何覆盖范围
+            nullable: true
+          srid:
+            type: integer
+            description: 空间参考ID
+            nullable: true
+          red_band_index:
+            type: integer
+            description: 红光波段索引
+            nullable: true
+          nir_band_index:
+            type: integer
+            description: 近红外波段索引
+            nullable: true
+          metadata:
+            type: string
+            description: 元数据（JSON字符串）
+            nullable: true
+          status:
+            type: string
+            description: 状态
+            enum:
+              - active
+              - deleted
+            nullable: true
+          capture_time:
+            type: string
+            format: date-time
+            description: '拍摄时间（ISO格式，例如 2025-05-28T12:00:00Z）'
+            nullable: true
+          tags:
+            type: string
+            description: '标签（JSON字符串，例如 ["tag1", "tag2"]）'
+            nullable: true
+responses:
+  '200':
+    description: 影像更新成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或格式错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          InvalidJSON:
+            value:
+              message: JSON格式错误
+              error_code: 1
+          InvalidTime:
+            value:
+              message: 无效的时间格式：Invalid ISO format
+              error_code: 1
+  '404':
+    description: 影像未找到
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 服务器内部错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

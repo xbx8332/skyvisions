@@ -1,0 +1,54 @@
+tags:
+  - SystemMenus
+summary: 获取系统菜单列表
+description: 获取所有系统菜单列表
+operationId: listSystemMenus
+responses:
+  '200':
+    description: 系统菜单列表获取成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  parent_id:
+                    type: integer
+                    nullable: true
+                  name:
+                    type: string
+                    nullable: true
+                  path:
+                    type: string
+                    nullable: true
+                  icon:
+                    type: string
+                    nullable: true
+                  order_num:
+                    type: integer
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

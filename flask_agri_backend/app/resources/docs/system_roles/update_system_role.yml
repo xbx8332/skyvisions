@@ -1,0 +1,77 @@
+tags:
+  - SystemRoles
+summary: 更新系统角色
+description: 更新指定的系统角色
+operationId: updateSystemRole
+parameters:
+  - name: role_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 系统角色的ID
+requestBody:
+  required: false
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 角色名称
+            nullable: true
+          description:
+            type: string
+            description: 角色描述
+            nullable: true
+responses:
+  '200':
+    description: 系统角色更新成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或角色名称已存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          Duplicate:
+            value:
+              message: 角色名称已存在：name=admin
+              error_code: 2
+  '404':
+    description: 系统角色不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

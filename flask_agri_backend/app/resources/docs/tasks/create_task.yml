@@ -1,0 +1,104 @@
+tags:
+  - Tasks
+summary: 创建任务
+description: 创建新任务
+operationId: createTask
+requestBody:
+  required: true
+  content:
+    application/x-www-form-urlencoded:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 任务名称
+          description:
+            type: string
+            description: 描述
+            nullable: true
+          type:
+            type: string
+            enum:
+              - mapping
+              - spraying
+            description: 任务类型
+          field_id:
+            type: integer
+            description: 关联字段ID
+          path_id:
+            type: integer
+            description: 关联路径ID
+            nullable: true
+          status:
+            type: string
+            enum:
+              - pending
+              - running
+              - done
+            description: 任务状态
+          volume:
+            type: number
+            description: 任务容量
+            nullable: true
+          schedule_at:
+            type: string
+            format: date-time
+            description: '计划时间（ISO 格式，例如 2025-05-29T12:00:00Z）'
+            nullable: true
+          metadata:
+            type: string
+            description: 元数据（JSON字符串）
+            nullable: true
+        required:
+          - name
+          - type
+          - field_id
+          - status
+responses:
+  '201':
+    description: 任务创建成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 参数错误或数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          InvalidParameter:
+            value:
+              message: 无效的任务类型
+              error_code: 1
+          JSONError:
+            value:
+              message: JSON格式错误
+              error_code: 1
+          Duplicate:
+            value:
+              message: 记录已存在：任务数据重复
+              error_code: 2
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer

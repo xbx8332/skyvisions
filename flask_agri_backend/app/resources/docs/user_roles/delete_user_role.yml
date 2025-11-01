@@ -1,0 +1,62 @@
+tags:
+  - UserRoles
+summary: 删除用户角色关联
+description: 删除指定用户角色关联
+operationId: deleteUserRole
+parameters:
+  - name: ur_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: 用户角色关联的ID
+responses:
+  '200':
+    description: 用户角色关联删除成功
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            id:
+              type: integer
+  '400':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+        examples:
+          ReferenceError:
+            value:
+              message: 无法删除：用户角色关联被其他记录引用
+              error_code: 2
+  '404':
+    description: 用户角色关联不存在
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
+  '500':
+    description: 数据库错误
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            error_code:
+              type: integer
