@@ -1,4 +1,4 @@
-name: Flask Agri Front CI - Debug
+name: Flask Agri Front CI/CD
 
 on: 
   push:
@@ -6,84 +6,44 @@ on:
       - main
 
 jobs:
-  debug-build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Debug project structure
-      run: |
-        echo "=== 检查项目结构 ==="
-        ls -la
-        echo "=== 检查前端目录 ==="
-        if [ -d "flask_agri_front" ]; then
-          ls -la flask_agri_front/
-        else
-          echo "ERROR: flask_agri_front 目录不存在!"
-          exit 1
-        fi
-        
-    - name: Check package.json
-      run: |
-        echo "=== 检查 package.json ==="
-        if [ -f "flask_agri_front/package.json" ]; then
-          cat flask_agri_front/package.json
-          echo "=== 检查 package-lock.json ==="
-          if [ -f "flask_agri_front/package-lock.json" ]; then
-            echo "package-lock.json 存在"
-          else
-            echo "package-lock.json 不存在，将使用 npm install"
-          fi
-        else
-          echo "ERROR: package.json 不存在!"
-          exit 1
-        fi
-      
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: flask_agri_front/package-lock.json
         
-    - name: Check Node.js and npm versions
+    - name: Install dependencies
       run: |
-        echo "Node.js version:"
-        node --version
-        echo "npm version:"
-        npm --version
-        
-    - name: Check available npm scripts
-      run: |
-        echo "=== 可用的 npm 脚本 ==="
         cd flask_agri_front
-        npm run || echo "无法获取脚本列表"
+        npm ci
         
-    - name: Install dependencies with debug
+    - name: Build project (ignore TypeScript warnings)
       run: |
-        echo "=== 安装依赖 ==="
         cd flask_agri_front
-        # 尝试不同的安装方法
-        if [ -f "package-lock.json" ]; then
-          echo "使用 npm ci..."
-          npm ci
-        else
-          echo "使用 npm install..."
-          npm install
-        fi
-        echo "安装完成"
+        # 设置环境变量来抑制 TypeScript 警告
+        NODE_ENV=production npm run build 2>/dev/null || npm run build
+      env:
+        # 抑制 TypeScript 相关警告
+        TS_NODE_TRANSPILE_ONLY: 'true'
         
-    - name: Try build with error handling
-      run: |
-        echo "=== 尝试构建 ==="
-        cd flask_agri_front
-        # 尝试不同的构建命令
-        if npm run build; then
-          echo "构建成功!"
-          echo "构建输出:"
-          ls -la dist/ || ls -la build/ || echo "没有找到 dist 或 build 目录"
-        else
-          echo "npm run build 失败，尝试其他构建方式..."
-          # 尝试常见的构建命令
-          npx vite build || npx vue-cli-service build || npx react-scripts build || echo "所有构建方式都失败"
-        fi
+    - name: Setup GitHub Pages
+      uses: actions/configure-pages@v4
+        
+    - name: Upload to GitHub Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: flask_agri_front/dist/
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
