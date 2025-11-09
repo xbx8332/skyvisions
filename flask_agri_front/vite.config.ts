@@ -4,6 +4,7 @@ import cesium from 'vite-plugin-cesium'
 import path from 'path'
 
 export default defineConfig({
+  base: '/skyvisions/',
   plugins: [vue(), cesium()],
   resolve: {
     alias: {
