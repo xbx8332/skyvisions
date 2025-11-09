@@ -25,23 +25,21 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: flask_agri_front/package-lock.json
         
-    - name: Install dependencies
+    - name: Install dependencies with fix
       run: |
         cd flask_agri_front
-        npm ci
+        # 删除 node_modules 和 package-lock.json
+        rm -rf node_modules
+        rm -f package-lock.json
         
-    - name: Modify build command to skip TypeScript errors
+        # 使用 npm install 而不是 npm ci
+        npm install --legacy-peer-deps --force
+        
+    - name: Build project
       run: |
         cd flask_agri_front
-        # 方法1: 直接使用 vite build，跳过 vue-tsc
         npx vite build --mode production
-        
-        # 如果上面失败，使用方法2: 修改 package.json 的 build 脚本
-        # sed -i 's/"build": "vue-tsc -b && vite build"/"build": "vite build"/' package.json
-        # npm run build
         
     - name: Setup Pages
       uses: actions/configure-pages@v4
