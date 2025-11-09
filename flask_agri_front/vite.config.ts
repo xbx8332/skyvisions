@@ -12,6 +12,14 @@ export default defineConfig({
     copy({
       patterns: [
         {
+          from: 'public/assets/**/*',
+          to: 'assets/[name][ext]'
+        },
+        {
+          from: 'public/models/**/*',
+          to: 'models/[name][ext]'
+        },
+        {
           from: 'node_modules/cesium/Build/Cesium/*',
           to: 'cesium/[name][ext]'
         }
@@ -20,8 +28,11 @@ export default defineConfig({
   ],
   build:{
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    // 确保公共目录被正确处理
+    copyPublicDir: true
   },
+  publicDir: 'public',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
