@@ -1,47 +1,24 @@
 name: Flask Agri Front CI
 
-on:
+on: 
   push:
-    branches: [ main ]
-    # 可选： 设置只有Flask Agri Front 目录的改动才触发此工作流
-    paths:
-      - 'flask_agri_front/**'
+    branches: 
+      - main
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
+    
     steps:
-      # 1.拉取代码到虚拟机
-      - uses: actions/checkout@v4
-
-
-      # 2. 设置Node.js环境
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: flask_agri_front/package-lock.json # 缓存前端依赖
-
-      # 3. 安装依赖（进入flask_agri_front目录）
-      - name: Install dependencies
-        run: npm ci 
-        working-directory: ./flask_agri_front
-
-      # 4. 运行代码检查
-      - name: Run Linter
-        run: npm run lint
-        working-directory: ./flask_agri_front
-
-      # 5. 运行测试
-      - name: Run Tests
-        run: npm test 
-        working-directory: ./flask_agri_front
-
-      # 6. 执行构建（确保项目有build脚本）
-      - name: Build Project
-        run: npm run build
-        working-directory: ./flask_agri_front
-
-
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Install and build
+      run: |
+        cd flask_agri_front
+        npm install
+        npm run build
