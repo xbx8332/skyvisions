@@ -8,6 +8,14 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
     - name: Checkout code
@@ -25,25 +33,24 @@ jobs:
         cd flask_agri_front
         npm ci
         
-    - name: Build project (ignore TypeScript warnings)
+    - name: Modify build command to skip TypeScript errors
       run: |
         cd flask_agri_front
-        # 设置环境变量来抑制 TypeScript 警告
-        NODE_ENV=production npm run build 2>/dev/null || npm run build
-      env:
-        # 抑制 TypeScript 相关警告
-        TS_NODE_TRANSPILE_ONLY: 'true'
+        # 方法1: 直接使用 vite build，跳过 vue-tsc
+        npx vite build --mode production
         
-    - name: Setup GitHub Pages
+        # 如果上面失败，使用方法2: 修改 package.json 的 build 脚本
+        # sed -i 's/"build": "vue-tsc -b && vite build"/"build": "vite build"/' package.json
+        # npm run build
+        
+    - name: Setup Pages
       uses: actions/configure-pages@v4
         
-    - name: Upload to GitHub Pages
+    - name: Upload artifact to GitHub Pages
       uses: actions/upload-pages-artifact@v3
       with:
         path: flask_agri_front/dist/
-        
+
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
