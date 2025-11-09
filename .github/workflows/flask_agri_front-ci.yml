@@ -26,20 +26,65 @@ jobs:
       with:
         node-version: '18'
         
-    - name: Install dependencies with fix
+    - name: Clean install
       run: |
         cd flask_agri_front
-        # 删除 node_modules 和 package-lock.json
         rm -rf node_modules
         rm -f package-lock.json
+        npm install --legacy-peer-deps
         
-        # 使用 npm install 而不是 npm ci
-        npm install --legacy-peer-deps --force
+    - name: Create Cesium configuration
+      run: |
+        cd flask_agri_front
+        # 创建 Cesium 配置文件
+        mkdir -p src/utils
+        cat > src/utils/cesiumConfig.js << 'EOF'
+        // Cesium 配置
+        import * as Cesium from 'cesium';
+        
+        // 设置静态资源路径
+        window.CESIUM_BASE_URL = '/skyvisions/cesium/';
+        
+        // 导出 Cesium 供其他模块使用
+        export default Cesium;
+        
+        console.log('Cesium configured with base URL:', window.CESIUM_BASE_URL);
+        EOF
+        
+    - name: Update main entry file
+      run: |
+        cd flask_agri_front
+        # 在主入口文件中引入 Cesium 配置
+        if [ -f "src/main.js" ]; then
+          # 在 main.js 顶部添加引入
+          sed -i '1iimport "./utils/cesiumConfig";' src/main.js
+        elif [ -f "src/main.ts" ]; then
+          sed -i '1iimport "./utils/cesiumConfig";' src/main.ts
+        fi
         
     - name: Build project
       run: |
         cd flask_agri_front
-        npx vite build --mode production
+        npm run build || npx vite build --mode production
+        
+    - name: Copy Cesium assets
+      run: |
+        cd flask_agri_front
+        echo "复制 Cesium 资源文件..."
+        
+        # 创建目标目录
+        mkdir -p dist/cesium
+        
+        # 检查 node_modules 中的 Cesium
+        echo "检查 node_modules/cesium 目录:"
+        ls -la node_modules/cesium/Build/ || echo "Cesium 目录不存在"
+        
+        # 复制 Cesium 核心文件
+        cp -r node_modules/cesium/Build/Cesium/* dist/cesium/ || echo "复制失败，可能路径不对"
+        
+        # 验证复制结果
+        echo "复制后的 cesium 目录:"
+        ls -la dist/cesium/ || echo "cesium 目录不存在"
         
     - name: Setup Pages
       uses: actions/configure-pages@v4
