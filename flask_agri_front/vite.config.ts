@@ -1,11 +1,27 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import cesium from 'vite-plugin-cesium'
+import { copy } from 'vite-plugin-copy'
 import path from 'path'
 
 export default defineConfig({
   base: '/skyvisions/',
-  plugins: [vue(), cesium()],
+  plugins: [
+    vue(), 
+    cesium(),
+    copy({
+      patterns: [
+        {
+          from: 'node_modules/cesium/Build/Cesium/*',
+          to: 'cesium/[name][ext]'
+        }
+      ]
+    })
+  ],
+  build:{
+    outDir: 'dist',
+    assetsDir: 'assets'
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
